@@ -36,7 +36,7 @@ def start_fulfillment_consumer():
 
     channel.basic_consume(queue="fulfillment_queue", on_message_callback=process_order_fulfillment, auto_ack=True)
 
-    print("Order Fulfillment Service is waiting for payment-applied events...")
+    print("Waiting for payment-applied events...")
     channel.start_consuming()
 
 if __name__ == "__main__":
