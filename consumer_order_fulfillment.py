@@ -9,14 +9,14 @@ def process_order_fulfillment(ch, method, properties, body):
     student_name = data["student_name"]
     
     # wait, simulating fulfilling
-    print(f"Order {order_id} is being fulfilled by Russell Toney...")
+    print(f"[{student_name}] Fulfillment: Order {order_id} is being fulfilled...")
     time.sleep(2)  # Simulate some processing time
     
     fulfillment_data = {
         "order_id": order_id,
         "student_name": student_name,
         "status": "fulfilled",
-        "fulfilled_by": "Russell Toney"
+        "fulfilled_by": student_name
     }
     
     ch.basic_publish(
@@ -25,7 +25,7 @@ def process_order_fulfillment(ch, method, properties, body):
         body=json.dumps(fulfillment_data)
     )
     
-    print(f"Order {order_id} has been fulfilled and notification sent.")
+    print(f"[{student_name}] Fulfillment: Order {order_id} fulfilled. Events published.")
 
 def start_fulfillment_consumer():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=RABBITMQ_HOST))

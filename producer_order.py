@@ -26,7 +26,7 @@ def place_order():
     order = generate_random_order()
 
     channel.basic_publish(exchange=EXCHANGE_NAME, routing_key="order-created", body=json.dumps(order))
-    print(f"Order placed: {order}")
+    print(f"[{order['student_name']}] Producer: Order placed: {order}")
 
     connection.close()
 

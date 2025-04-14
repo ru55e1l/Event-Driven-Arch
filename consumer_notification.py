@@ -9,17 +9,15 @@ def send_notification(ch, method, properties, body):
     student_name = data["student_name"]  # Get student name from data
     
     if method.routing_key == "order-created":
-        message = f"Order {order_id} has been placed successfully by {student_name}. Notification sent to user."
+        message = f"[{student_name}] Notification: Order {order_id} has been placed successfully."
     elif method.routing_key == "payment-success":
-        message = f"Payment for Order {order_id} by {student_name} was successful. Notification sent to user."
+        message = f"[{student_name}] Notification: Order {order_id} has been fulfilled."
     elif method.routing_key == "payment-denied":
-        message = f"Payment for Order {order_id} by {student_name} was denied. Notification sent to user."
+        message = f"[{student_name}] Notification: Payment for Order {order_id} was denied."
     elif method.routing_key == "order-fulfilled":
-        fulfilled_by = data.get("fulfilled_by")
-        message = f"Order {order_id} has been fulfilled by {fulfilled_by}. Your order is ready for pickup/delivery."
+        message = f"[{student_name}] Notification: Order {order_id} has been fulfilled."
     elif method.routing_key == "order-shipped":
-        shipped_by = data.get("shipped_by")
-        message = f"Order {order_id} has been shipped to {student_name}. Processed by {shipped_by}."
+        message = f"[{student_name}] Notification: Order {order_id} has been shipped."
     else:
         message = "Unknown notification event received."
 

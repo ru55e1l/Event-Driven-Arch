@@ -17,10 +17,10 @@ def process_payment(ch, method, properties, body):
     if payment_success:
         channel.basic_publish(exchange=EXCHANGE_NAME, routing_key="payment-applied", body=json.dumps(data))
         channel.basic_publish(exchange=EXCHANGE_NAME, routing_key="payment-success", body=json.dumps(data))
-        print(f"Payment applied for Order {order_id} by {student_name}, notification sent.")
+        print(f"[{student_name}] Payment: Payment applied for Order {order_id}, events sent.")
     else:
         channel.basic_publish(exchange=EXCHANGE_NAME, routing_key="payment-denied", body=json.dumps(data))
-        print(f"Payment denied for Order {order_id} by {student_name}, notification sent.")
+        print(f"[{student_name}] Payment: Payment denied for Order {order_id}, notification sent.")
 
     connection.close()
 

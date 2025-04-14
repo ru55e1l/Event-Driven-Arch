@@ -10,7 +10,7 @@ def process_shipping(ch, method, properties, body):
     fulfilled_by = data.get("fulfilled_by", "Unknown")
     
     # Simulate shipping the order
-    shipping_message = f"Order {order_id} has been shipped to {student_name}. Processed by {fulfilled_by}."
+    shipping_message = f"[{student_name}] Shipping: Order {order_id} shipped. Events published."
     print(shipping_message)
     
     # Publish order-shipped event
