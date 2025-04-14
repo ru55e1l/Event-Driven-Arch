@@ -14,6 +14,9 @@ def send_notification(ch, method, properties, body):
         message = f"Payment for Order {order_id} by {student_name} was successful. Notification sent to user."
     elif method.routing_key == "payment-denied":
         message = f"Payment for Order {order_id} by {student_name} was denied. Notification sent to user."
+    elif method.routing_key == "order-fulfilled":
+        fulfilled_by = data.get("fulfilled_by")
+        message = f"Order {order_id} has been fulfilled by {fulfilled_by}. Your order is ready for pickup/delivery."
     else:
         message = "Unknown notification event received."
 
@@ -27,6 +30,7 @@ def start_notification_consumer():
     channel.queue_bind(exchange=EXCHANGE_NAME, queue="notification_queue", routing_key="order-created")
     channel.queue_bind(exchange=EXCHANGE_NAME, queue="notification_queue", routing_key="payment-success")
     channel.queue_bind(exchange=EXCHANGE_NAME, queue="notification_queue", routing_key="payment-denied")
+    channel.queue_bind(exchange=EXCHANGE_NAME, queue="notification_queue", routing_key="order-fulfilled")
 
     channel.basic_consume(queue="notification_queue", on_message_callback=send_notification, auto_ack=True)
 
