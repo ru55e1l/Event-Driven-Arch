@@ -6,13 +6,14 @@ from rabbitmq_config import RABBITMQ_HOST, EXCHANGE_NAME
 def send_notification(ch, method, properties, body):
     data = json.loads(body)
     order_id = data["order_id"]
+    student_name = data["student_name"]  # Get student name from data
     
     if method.routing_key == "order-created":
-        message = f"Order {order_id} has been placed successfully. Notification sent to user."
+        message = f"Order {order_id} has been placed successfully by {student_name}. Notification sent to user."
     elif method.routing_key == "payment-success":
-        message = f"Payment for Order {order_id} was successful. Notification sent to user."
+        message = f"Payment for Order {order_id} by {student_name} was successful. Notification sent to user."
     elif method.routing_key == "payment-denied":
-        message = f"Payment for Order {order_id} was denied. Notification sent to user."
+        message = f"Payment for Order {order_id} by {student_name} was denied. Notification sent to user."
     else:
         message = "Unknown notification event received."
 

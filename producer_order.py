@@ -8,11 +8,13 @@ def generate_random_order():
     order_id = str(uuid.uuid4())[:8] 
     user_id = f"u{random.randint(100, 999)}" 
     book_id = f"b{random.randint(1000, 9999)}" 
+    student_name = "Russell Toney"
 
     return {
         "order_id": order_id,
         "user_id": user_id,
-        "book_id": book_id
+        "book_id": book_id,
+        "student_name": student_name
     }
 
 def place_order():

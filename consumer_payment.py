@@ -7,6 +7,7 @@ from rabbitmq_config import RABBITMQ_HOST, EXCHANGE_NAME
 def process_payment(ch, method, properties, body):
     data = json.loads(body)
     order_id = data["order_id"]
+    student_name = data["student_name"]  # Get student name from data
 
     payment_success = random.choice([True, False])
 
@@ -16,10 +17,10 @@ def process_payment(ch, method, properties, body):
     if payment_success:
         channel.basic_publish(exchange=EXCHANGE_NAME, routing_key="payment-applied", body=json.dumps(data))
         channel.basic_publish(exchange=EXCHANGE_NAME, routing_key="payment-success", body=json.dumps(data))
-        print(f"Payment applied for Order {order_id}, notification sent.")
+        print(f"Payment applied for Order {order_id} by {student_name}, notification sent.")
     else:
         channel.basic_publish(exchange=EXCHANGE_NAME, routing_key="payment-denied", body=json.dumps(data))
-        print(f"Payment denied for Order {order_id}, notification sent.")
+        print(f"Payment denied for Order {order_id} by {student_name}, notification sent.")
 
     connection.close()
 
